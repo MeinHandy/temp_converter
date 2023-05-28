@@ -1,8 +1,9 @@
 from tkinter import *
 from tkinter import ttk
 import os
+import pandas as pd
 
-history = {}
+history = {"Input": "Output"}  # input/output for .csv convenience
 
 
 def c_convert_func():  # converts the input to a fahrenheit output
@@ -19,7 +20,6 @@ def c_convert_func():  # converts the input to a fahrenheit output
         c_out.set(temp_c)
         temp_f = str(temp_f) + "°F"
         history[temp_f] = temp_c  # sets a new input temperature in the dictionary with the value of the output
-        print(history)
     except ValueError:
         c_out.set("Please input a number")
 
@@ -43,11 +43,10 @@ def f_convert_func():  # converts the input to a celsius output
 
 
 def help_window_func():
-
     def close_help():
         help_window.destroy()
 
-    help_window = Toplevel(root)
+    help_window = Toplevel(root)  # creates new window
     help_window.title("Help")
     help_frame = ttk.LabelFrame(help_window)
     help_frame.grid(row=0, column=0, padx=10, pady=10, sticky="NSEW")
@@ -61,7 +60,8 @@ def help_window_func():
                                             "exported data\n\n"
                                             "Pressing the 'Help' button brings up this menu.\n\n"
                                             "Pressing the 'Exit' button will close the program without saving.\n"
-                                            "All non-exported data will be lost.".format(os.path.dirname(os.path.realpath(__file__)))
+                                            "All non-exported data will be lost."
+                           .format(os.path.dirname(os.path.realpath(__file__)))
                            )
     help_label.grid()
     close_help_button = ttk.Button(help_window, text="Dismiss", command=close_help)
@@ -69,11 +69,10 @@ def help_window_func():
 
 
 def history_box_func():
-
     def close_history():
         history_window.destroy()
 
-    history_window = Toplevel(root)
+    history_window = Toplevel(root)  # creates new window
     history_window.title("History")
     history_frame = ttk.LabelFrame(history_window)
     history_frame.grid(row=0, column=0, padx=10, pady=10, sticky="NSEW")
@@ -96,10 +95,15 @@ def history_box_func():
     close_history.grid(row=2, column=0)
 
 
-
-
 def exit_program():
     exit("Closed program.")
+
+
+def export_csv():  # function called by button to export
+    global history  # it did not care before I reset history
+    output = pd.DataFrame(history, index=[0])  # saves dictionary to output in 'panda-speak'
+    output.to_csv("history.csv", encoding="utf-8-sig")  # outputs to history.csv locally into the program directory
+    history = {}  # this required me to global, not the output
 
 
 root = Tk()
@@ -117,13 +121,13 @@ c_convert_button.grid(row=1, column=1, padx=10, pady=10)
 exit_button = ttk.Button(main_frame, text="Exit", command=exit_program)
 exit_button.grid(row=0, column=4, padx=10, pady=10)
 
-export_button = ttk.Button(main_frame, text="Export as .csv")
+export_button = ttk.Button(main_frame, text="Export as .csv", command=export_csv)
 export_button.grid(row=1, column=4, padx=10, pady=10)
 
 help_button = ttk.Button(main_frame, text="Help", command=help_window_func)
 help_button.grid(row=4, column=4, padx=10, pady=10)
 
-conversion_history = ttk.Button(main_frame, text="History",command=history_box_func)
+conversion_history = ttk.Button(main_frame, text="History", command=history_box_func)
 conversion_history.grid(row=2, column=4, padx=10, pady=10)
 
 celsius_input = ttk.Entry(main_frame)
@@ -132,15 +136,14 @@ celsius_input.grid(row=0, column=0, padx=10, pady=10)
 fahrenheit_input = ttk.Entry(main_frame)
 fahrenheit_input.grid(row=0, column=1, padx=10, pady=10)
 
-f_out = DoubleVar()
+f_out = StringVar()
 f_out.set("fahrenheit_output")
 fahrenheit_output = ttk.Label(main_frame, textvariable=f_out)
 fahrenheit_output.grid(row=2, column=0)
 
-c_out = DoubleVar()
+c_out = StringVar()
 c_out.set("celsius_output")
 celsius_output = ttk.Label(main_frame, textvariable=c_out)
 celsius_output.grid(row=2, column=1)
-
 
 root.mainloop()
