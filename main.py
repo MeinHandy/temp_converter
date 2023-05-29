@@ -2,9 +2,9 @@ from tkinter import *
 from tkinter import ttk
 import os
 import pandas as pd
-import time
+import time as t
 
-history = {"Input": "Output"}  # input/output for .csv convenience
+history = {"Input": "Output"}  # input/output for multiple conveniences
 
 
 def c_convert_func():  # converts the input to a fahrenheit output
@@ -99,14 +99,15 @@ def export_csv():  # function called by button to export
     output = pd.DataFrame(history, index=[0])  # saves dictionary to output in 'panda-speak'
     output.to_csv("history.csv", encoding="utf-8-sig")  # outputs to history.csv locally into the program directory
     history = {}
-    t = time.localtime()
-    current_time = time.strftime("%H:%M:%S", t)
+    time = t.localtime()
+    current_time = t.strftime("%H:%M:%S", time)
     export_complete = ttk.Label(main_frame, text="Export completed at [{}]".format(current_time))
     export_complete.grid(row=3, column=1, padx=10, pady=10)
 
 
-root = Tk()
+root = Tk()  # tkinter init
 root.title("Temperature Converter")
+
 # create all buttons
 main_frame = ttk.LabelFrame(root)
 main_frame.grid(row=0, column=0, padx=10, pady=10, sticky="NSEW")
@@ -136,13 +137,13 @@ fahrenheit_input = ttk.Entry(main_frame)
 fahrenheit_input.grid(row=0, column=1, padx=10, pady=10)
 
 f_out = StringVar()
-f_out.set("0°F")
+f_out.set("0°F")  # placeholder numbers to show how the program will display output
 fahrenheit_output = ttk.Label(main_frame, textvariable=f_out)
 fahrenheit_output.grid(row=2, column=0)
 
 c_out = StringVar()
-c_out.set("0°C")
+c_out.set("0°C")  # placeholder numbers to show how the program will display output
 celsius_output = ttk.Label(main_frame, textvariable=c_out)
 celsius_output.grid(row=2, column=1)
 
-root.mainloop()
+root.mainloop()  # tkinter
