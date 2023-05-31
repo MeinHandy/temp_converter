@@ -15,7 +15,7 @@ def c_convert_func():  # converts the input to a fahrenheit output
         temp_c = round(temp_c, 2)
         if temp_c < -273.15:  # absolute zero in C
             temp_c = str(temp_c) + "°C"
-            c_out.set("Invalid input, temperature is\nbelow absolute zero.\n({} < 273.15°C)".format(temp_c))
+            c_out.set("Invalid input, temperature is\nbelow absolute zero.\n({} < -273.15°C)".format(temp_c))
             return  # ends the subroutine
         temp_c = str(temp_c) + "°C"
         c_out.set(temp_c)
@@ -33,7 +33,7 @@ def f_convert_func():  # converts the input to a celsius output
         temp_f = round(temp_f, 2)
         if temp_f < -459.67:  # absolute zero in F
             temp_f = str(temp_f) + "°F"
-            f_out.set("Invalid input, temperature is\nbelow absolute zero. ({} < 459.67°F)".format(temp_f))
+            f_out.set("Invalid input, temperature is\nbelow absolute zero.\n({} < -459.67°F)".format(temp_f))
             return  # ends the subroutine
         temp_f = str(temp_f) + "°F"
         f_out.set(temp_f)
