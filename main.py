@@ -44,9 +44,6 @@ def f_convert_func():  # converts the input to a celsius output
 
 
 def help_window_func():
-    def close_help():
-        help_window.destroy()
-
     help_window = Toplevel(root)  # creates new window
     help_window.title("Help")
     help_frame = ttk.LabelFrame(help_window)
@@ -65,14 +62,11 @@ def help_window_func():
                            .format(os.path.dirname(os.path.realpath(__file__)))
                            )
     help_label.grid()
-    close_help_button = ttk.Button(help_window, text="Dismiss", command=close_help)
+    close_help_button = ttk.Button(help_window, text="Dismiss", command=help_window.destroy)
     close_help_button.grid(row=1, column=0, padx=10, pady=10)
 
 
 def history_box_func():
-    def close_history():
-        history_window.destroy()
-
     history_window = Toplevel(root)  # creates new window
     history_window.title("History")
     history_frame = ttk.LabelFrame(history_window)
@@ -86,7 +80,7 @@ def history_box_func():
     history_output.grid(row=1, column=1)
     history_output.insert(0, *list(history.values()))
 
-    close_history = ttk.Button(history_window, text="Dismiss", command=close_history)
+    close_history = ttk.Button(history_window, text="Dismiss", command=history_window.destroy)
     close_history.grid(row=2, column=0)
 
 
